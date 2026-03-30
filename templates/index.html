@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulasi Process Scheduling CPU</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Simulasi Process Scheduling CPU</h1>
+      <p>Visualisasi algoritma FCFS, SJF, dan Round Robin</p>
+    </header>
+
+    <main>
+      <!-- ─── FORM INPUT ─── -->
+      <section class="card" id="section-input">
+        <h2>Input Data Proses</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="jumlah-proses">Jumlah Proses</label>
+            <input
+              type="number"
+              id="jumlah-proses"
+              min="1"
+              max="10"
+              value="3"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="algoritma">Algoritma</label>
+            <select id="algoritma">
+              <option value="fcfs">First Come First Served (FCFS)</option>
+              <option value="sjf">Shortest Job First (SJF)</option>
+              <option value="rr">Round Robin</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="group-quantum" style="display: none">
+            <label for="quantum">Time Quantum</label>
+            <input type="number" id="quantum" min="1" value="3" />
+          </div>
+        </div>
+
+        <button id="btn-generate" class="btn-secondary">
+          Generate Tabel Input
+        </button>
+
+        <!-- Tabel input proses -->
+        <div id="container-tabel-input"></div>
+
+        <button id="btn-hitung" class="btn-primary" style="display: none">
+          Jalankan Simulasi
+        </button>
+        <div id="loading">
+          <div class="spinner"></div>
+          <span>Menghitung simulasi...</span>
+        </div>
+      </section>
+
+      <!-- ─── GANTT CHART ─── -->
+      <section class="card" id="section-gantt" style="display: none">
+        <h2>Gantt Chart</h2>
+        <div id="gantt-chart"></div>
+        <div id="gantt-label"></div>
+      </section>
+
+      <!-- ─── HASIL ─── -->
+      <section class="card" id="section-hasil" style="display: none">
+        <h2>Hasil Simulasi</h2>
+        <div id="container-tabel-hasil"></div>
+        <div id="rata-rata"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Simulasi Process Scheduling &mdash; Sistem Operasi</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
