@@ -6,6 +6,7 @@
 * Native CSS: Used to design the visual layout, typography, and responsive styling of the application without external libraries.
 
 ## Installation
+Ensure you have Python 3.x.x Installed
 
 ## Step 1 : Clone The Repository
 ```bash
