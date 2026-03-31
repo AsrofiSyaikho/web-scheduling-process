@@ -24,7 +24,7 @@ pip install flask
 ## Step 3 : Running The App
 
 ```bash
-python App.py
+python app.py
 ```
 ## Contribution
 This project is not open to contributions, as it is solely a university group project for a final assessment 
