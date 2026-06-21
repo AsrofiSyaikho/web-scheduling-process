@@ -1,12 +1,9 @@
 // ─────────────────────────────────────────
-//  WARNA GANTT CHART
+//  WARNA & RENDER GANTT CHART
+//  (lihat static/js/gantt.js — dipakai bersama dengan
+//   halaman Bandingkan Algoritma agar tidak duplikat)
 // ─────────────────────────────────────────
 
-const WARNA = [
-    "#1a73e8", "#00bfa5", "#e53935", "#fb8c00",
-    "#8e24aa", "#3949ab", "#e91e63", "#00897b",
-    "#f4511e", "#7cb342"
-];
 
 
 // ─────────────────────────────────────────
@@ -145,50 +142,8 @@ elBtnHitung.addEventListener("click", async () => {
 // ─────────────────────────────────────────
 
 function tampilkanGantt(timeline, proses) {
-    const petaWarna = {};
-    proses.forEach((p, i) => {
-        petaWarna[p.nama] = WARNA[i % WARNA.length];
-    });
-
-    const totalWaktu = timeline[timeline.length - 1].finish;
-
-    elGanttChart.innerHTML = "";
-    elGanttLabel.innerHTML = "";
-
-    // Buat semua blok dulu
-    const blocks = timeline.map(item => {
-        const durasi = item.finish - item.start;
-        const lebar  = Math.max((durasi / totalWaktu) * 100, 4);
-        const warna  = petaWarna[item.nama] || "#1a73e8";
-
-        const block = document.createElement("div");
-        block.className = "gantt-block";
-        block.style.width           = `${lebar}%`;
-        block.style.backgroundColor = warna;
-        block.title                 = `${item.nama}: ${item.start} → ${item.finish}`;
-        block.textContent           = item.nama;
-
-        elGanttChart.appendChild(block);
-        return block;
-    });
-
-    // Animasi blok per blok dengan delay bertahap
-    blocks.forEach((block, i) => {
-        setTimeout(() => {
-            block.classList.add("muncul");
-        }, i * 120);
-    });
-
-    // Label waktu
-    let htmlLabel = "";
-    timeline.forEach(item => {
-        const durasi = item.finish - item.start;
-        const lebar  = Math.max((durasi / totalWaktu) * 100, 4);
-        htmlLabel += `<div class="gantt-time" style="width:${lebar}%">${item.start}</div>`;
-    });
-    htmlLabel += `<div class="gantt-time">${timeline[timeline.length - 1].finish}</div>`;
-    elGanttLabel.innerHTML = htmlLabel;
-
+    const petaWarna = buatPetaWarna(proses);
+    renderGanttChart(elGanttChart, elGanttLabel, timeline, petaWarna);
     elSectionGantt.style.display = "block";
 }
 

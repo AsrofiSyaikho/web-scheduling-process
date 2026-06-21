@@ -324,7 +324,8 @@ main {
    LOADING SPINNER
 ───────────────────────────────────────── */
 
-#loading {
+#loading.loading-box,
+.loading-box {
     display: none;
     align-items: center;
     gap: 12px;
@@ -334,7 +335,7 @@ main {
     font-weight: 500;
 }
 
-#loading.aktif {
+.loading-box.aktif {
     display: flex;
 }
 
@@ -527,6 +528,225 @@ footer {
     color: var(--text-muted);
     border-top: 1px solid var(--gray-border);
     background: var(--white);
+}
+
+
+/* ─────────────────────────────────────────
+   NAVIGASI ANTAR HALAMAN
+───────────────────────────────────────── */
+
+.nav-halaman {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.14);
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.2px;
+}
+
+.nav-link:hover {
+    background: rgba(255,255,255,0.24);
+    transform: translateY(-1px);
+}
+
+.nav-link.aktif {
+    background: var(--white);
+    color: var(--blue-dark);
+}
+
+
+/* ─────────────────────────────────────────
+   HALAMAN BANDINGKAN — GANTT MINI PER ALGORITMA
+───────────────────────────────────────── */
+
+.gantt-banding-item {
+    margin-bottom: 26px;
+}
+
+.gantt-banding-item:last-child {
+    margin-bottom: 0;
+}
+
+.gantt-banding-judul {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gantt-banding-judul::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+}
+
+.gantt-chart-mini {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 3px;
+    margin-bottom: 8px;
+    min-height: 44px;
+    align-items: stretch;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.gantt-chart-mini .gantt-block {
+    height: 44px;
+    min-width: 38px;
+    font-size: 0.75rem;
+}
+
+.gantt-label-mini {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 3px;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    overflow-x: auto;
+}
+
+.gantt-label-mini .gantt-time {
+    min-width: 38px;
+}
+
+
+/* ─────────────────────────────────────────
+   HALAMAN BANDINGKAN — TABEL RINGKASAN
+───────────────────────────────────────── */
+
+#container-tabel-banding {
+    overflow-x: auto;
+    margin-bottom: 28px;
+}
+
+#container-tabel-banding table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93rem;
+}
+
+#container-tabel-banding th {
+    background: var(--blue-light);
+    color: var(--blue);
+    padding: 11px 16px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+#container-tabel-banding td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--gray-border);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+#container-tabel-banding tr:last-child td {
+    border-bottom: none;
+}
+
+.sel-terbaik {
+    background: var(--teal-light);
+    color: var(--teal-dark) !important;
+    border-radius: var(--radius-sm);
+}
+
+
+/* ─────────────────────────────────────────
+   HALAMAN BANDINGKAN — BAR CHART NATIVE CSS
+───────────────────────────────────────── */
+
+.bar-chart-judul {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 18px;
+}
+
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 24px;
+    height: 220px;
+    padding: 0 12px;
+    border-bottom: 2px solid var(--gray-border);
+}
+
+.bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.bar-pair {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 100%;
+}
+
+.bar {
+    width: 26px;
+    border-radius: 6px 6px 0 0;
+    min-height: 4px;
+    transition: height 0.6s ease;
+}
+
+.bar-wt  { background: linear-gradient(180deg, var(--blue), var(--blue-dark)); }
+.bar-tat { background: linear-gradient(180deg, var(--teal), var(--teal-dark)); }
+
+.bar-group-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.bar-chart-legenda {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.kotak-warna {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
 }
 
 

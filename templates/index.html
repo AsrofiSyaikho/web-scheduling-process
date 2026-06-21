@@ -13,6 +13,10 @@
     <header>
       <h1>Simulasi Process Scheduling CPU</h1>
       <p>Visualisasi algoritma FCFS, SJF, dan Round Robin</p>
+      <nav class="nav-halaman">
+        <a href="/" class="nav-link aktif">Simulasi Tunggal</a>
+        <a href="/bandingkan" class="nav-link">Bandingkan Algoritma</a>
+      </nav>
     </header>
 
     <main>
@@ -57,7 +61,7 @@
         <button id="btn-hitung" class="btn-primary" style="display: none">
           Jalankan Simulasi
         </button>
-        <div id="loading">
+        <div id="loading" class="loading-box">
           <div class="spinner"></div>
           <span>Menghitung simulasi...</span>
         </div>
@@ -82,6 +86,7 @@
       <p>Simulasi Process Scheduling &mdash; Sistem Operasi</p>
     </footer>
 
+    <script src="{{ url_for('static', filename='js/gantt.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   </body>
 </html>
