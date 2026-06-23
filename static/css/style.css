@@ -247,6 +247,61 @@ main {
     box-shadow: 0 0 0 3px rgba(0,191,165,0.13);
 }
 
+/* ─────────────────────────────────────────
+   TABEL INPUT PROSES Compare
+───────────────────────────────────────── */
+
+#container-tabel-input-c {
+    margin: 20px 0;
+    overflow-x: auto;
+    animation: fadeUp 0.4s ease both;
+}
+
+#container-tabel-input-c table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93rem;
+}
+
+#container-tabel-input-c th {
+    background: var(--blue-light);
+    color: var(--blue);
+    padding: 11px 16px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+#container-tabel-input-c td {
+    padding: 9px 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--gray-border);
+    transition: background 0.2s;
+}
+
+#container-tabel-input-c tr:hover td {
+    background: #f8fbff;
+}
+
+#container-tabel-input-c input {
+    width: 90px;
+    padding: 7px 10px;
+    border: 1.5px solid var(--gray-border);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-size: 0.93rem;
+    font-family: 'JetBrains Mono', monospace;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+#container-tabel-input-c input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,191,165,0.13);
+}
+
 
 /* ─────────────────────────────────────────
    TOMBOL
