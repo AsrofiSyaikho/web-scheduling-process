@@ -33,7 +33,12 @@ function buatPetaWarna(proses) {
 // ─────────────────────────────────────────
 
 function renderGanttChart(elChart, elLabel, timeline, petaWarna) {
-    const totalWaktu = timeline[timeline.length - 1].finish;
+    // FIX: rentang waktu dihitung dari start blok pertama sampai finish blok terakhir,
+    // bukan dari 0. Jika semua proses baru datang di t=1, maka totalWaktu = 14-1 = 13,
+    // bukan 14 — sehingga proporsi lebar setiap blok akurat.
+    const waktuMulai = timeline[0].start;
+    const waktuSelesai = timeline[timeline.length - 1].finish;
+    const totalWaktu = waktuSelesai - waktuMulai;
 
     elChart.innerHTML = "";
     elLabel.innerHTML = "";
@@ -41,6 +46,7 @@ function renderGanttChart(elChart, elLabel, timeline, petaWarna) {
     // Buat semua blok dulu
     const blocks = timeline.map(item => {
         const durasi = item.finish - item.start;
+        // FIX: pembagi menggunakan totalWaktu (rentang), bukan nilai absolut finish
         const lebar  = Math.max((durasi / totalWaktu) * 100, 4);
         const warna  = petaWarna[item.nama] || "#1a73e8";
 
@@ -66,9 +72,10 @@ function renderGanttChart(elChart, elLabel, timeline, petaWarna) {
     let htmlLabel = "";
     timeline.forEach(item => {
         const durasi = item.finish - item.start;
+        // FIX: konsisten menggunakan totalWaktu (rentang) untuk label juga
         const lebar  = Math.max((durasi / totalWaktu) * 100, 4);
         htmlLabel += `<div class="gantt-time" style="width:${lebar}%">${item.start}</div>`;
     });
-    htmlLabel += `<div class="gantt-time">${timeline[timeline.length - 1].finish}</div>`;
+    htmlLabel += `<div class="gantt-time">${waktuSelesai}</div>`;
     elLabel.innerHTML = htmlLabel;
 }

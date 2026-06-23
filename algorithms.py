@@ -37,50 +37,65 @@ def fcfs(proses):
 # ─────────────────────────────────────────
 
 def sjf(proses):
+    """
+    SJF Preemptive (Shortest Remaining Time First / SRTF).
+    Setiap satu satuan waktu, CPU selalu memilih proses dengan
+    sisa burst terkecil dari semua proses yang sudah tiba.
+    Jika ada proses baru yang tiba dengan sisa burst lebih kecil
+    dari proses yang sedang berjalan, proses tersebut langsung
+    di-interrupt dan digantikan.
+    """
     p = copy.deepcopy(proses)
     n = len(p)
 
-    # OPTIMASI: tandai proses selesai dengan flag boolean (O(1) per cek)
-    # alih-alih `x not in selesai` yang harus membandingkan seluruh isi
-    # dict satu per satu pada setiap iterasi (O(n) per cek -> O(n^2) total).
     for x in p:
-        x["_selesai"] = False
+        x["sisa_burst"]   = x["burst"]
+        x["_selesai"]     = False
+        x["waiting_time"] = 0
+        x["finish"]       = 0
 
-    selesai  = []
-    timeline = []
-    waktu    = 0
+    selesai       = []
+    timeline_raw  = []
+    selesai_count = 0
 
-    while len(selesai) < n:
+    # Mulai dari arrival time terkecil
+    waktu = min(x["arrival"] for x in p)
+
+    while selesai_count < n:
         tersedia = [x for x in p if not x["_selesai"] and x["arrival"] <= waktu]
 
         if not tersedia:
-            # OPTIMASI: lompat langsung ke arrival time proses berikutnya
-            # yang belum selesai, bukan menambah waktu satu per satu.
-            # Penting saat ada jeda arrival time yang besar (mis. 0 lalu 100000),
-            # supaya tidak melakukan ribuan iterasi kosong yang sia-sia.
             waktu = min(x["arrival"] for x in p if not x["_selesai"])
             continue
 
-        pilihan = min(tersedia, key=lambda x: x["burst"])
+        # Pilih proses dengan sisa burst terkecil; tiebreaker: arrival lebih awal
+        pilihan = min(tersedia, key=lambda x: (x["sisa_burst"], x["arrival"]))
 
-        pilihan["start"]           = waktu
-        pilihan["waiting_time"]    = waktu - pilihan["arrival"]
-        pilihan["finish"]          = waktu + pilihan["burst"]
-        pilihan["turnaround_time"] = pilihan["finish"] - pilihan["arrival"]
-        pilihan["_selesai"]        = True
+        # Jalankan 1 unit waktu
+        timeline_raw.append((pilihan["nama"], waktu))
+        pilihan["sisa_burst"] -= 1
+        waktu += 1
 
-        timeline.append({
-            "nama"  : pilihan["nama"],
-            "start" : pilihan["start"],
-            "finish": pilihan["finish"]
-        })
+        if pilihan["sisa_burst"] == 0:
+            pilihan["_selesai"]        = True
+            pilihan["finish"]          = waktu
+            pilihan["turnaround_time"] = waktu - pilihan["arrival"]
+            pilihan["waiting_time"]    = pilihan["turnaround_time"] - pilihan["burst"]
+            selesai.append(pilihan)
+            selesai_count += 1
 
-        waktu += pilihan["burst"]
-        selesai.append(pilihan)
+    # Kompres timeline_raw (unit per unit) menjadi blok berurutan per proses
+    timeline = []
+    for nama, t in timeline_raw:
+        if timeline and timeline[-1]["nama"] == nama:
+            timeline[-1]["finish"] = t + 1
+        else:
+            timeline.append({"nama": nama, "start": t, "finish": t + 1})
 
-    # Bersihkan field internal sebelum dikembalikan ke caller
+    # Bersihkan field internal
     for x in selesai:
         del x["_selesai"]
+        del x["sisa_burst"]
 
     return selesai, timeline
 
